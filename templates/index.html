@@ -4,7 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nirbhaya - A World Without Fear</title>
-  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="static/css/style.css">
 </head>
 <body>
 
@@ -26,7 +29,7 @@
 
   <!-- Main Navigation Bar -->
   <nav class="navbar">
-    <a href="#" class="brand" onclick="switchTab('dashboardTab'); return false;">
+    <a href="#" class="brand" onclick="switchTab('dashboardTab'); return false;" aria-label="Nirbhaya Home">
       <div class="brand-icon">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
@@ -57,20 +60,48 @@
     <section id="dashboardTab" class="tab-panel active">
       <div class="hero-banner">
         <div class="hero-text">
-          <h1>Empowering Your Physical & Digital Safety</h1>
+          <div class="hero-eyebrow">
+            <span>🛡️</span> Privacy-First Digital & Physical Protection
+          </div>
+          <h1>Your Safety. Your Space. Your Power.</h1>
           <p>
-            Nirbhaya combines machine learning threat detection, phishing and URL inspection,
-            instant emergency dispatch with live location sharing, and a private evidence vault—all
-            designed strictly with privacy-first principles and responsible AI disclosures.
+            An elegant, privacy-conscious personal safety platform combining explainable AI message risk assessment,
+            safe URL inspection without destination tracking, 1-tap emergency SOS broadcasting with verified coordinates,
+            and an on-device Evidence Vault—engineered to keep you protected, informed, and in complete control.
           </p>
         </div>
         <div class="hero-cta">
-          <button class="btn-danger" onclick="switchTab('sosTab')" style="padding:12px 24px; font-size:1rem; font-weight:700;">
-            🚨 Trigger SOS
+          <button class="btn-danger" onclick="switchTab('sosTab')" style="padding:13px 26px; font-size:1rem; font-weight:700;">
+            🚨 Access SOS Hub
           </button>
-          <button class="btn-primary" onclick="switchTab('threatTab')" style="padding:12px 20px;">
+          <button class="btn-primary" onclick="switchTab('threatTab')" style="padding:13px 22px;">
             🔍 Analyze a Message
           </button>
+        </div>
+      </div>
+
+      <!-- Live Truthful Platform Guarantees Strip -->
+      <div class="platform-guarantee-strip">
+        <div class="guarantee-item">
+          <div class="guarantee-icon">🔒</div>
+          <div>
+            <div class="guarantee-title">Zero Remote Telemetry</div>
+            <div class="guarantee-subtitle">Analyses run privately on your device</div>
+          </div>
+        </div>
+        <div class="guarantee-item">
+          <div class="guarantee-icon">👥</div>
+          <div>
+            <div class="guarantee-title">Multi-Channel SOS Ready</div>
+            <div class="guarantee-subtitle">Instant WhatsApp, SMS & direct dialers</div>
+          </div>
+        </div>
+        <div class="guarantee-item">
+          <div class="guarantee-icon">⚡</div>
+          <div>
+            <div class="guarantee-title">Stealth Quick Exit (Alt+Q)</div>
+            <div class="guarantee-subtitle">1-touch instant camouflage screen</div>
+          </div>
         </div>
       </div>
 
@@ -164,7 +195,7 @@
 
       <!-- Quick Helpline Reference Card -->
       <div class="panel-card">
-        <h3 style="margin-bottom:12px; font-size:1.15rem; color:#f87171;">📞 24/7 National Emergency & Women Helplines</h3>
+        <h3 style="margin-bottom:12px; font-size:1.2rem; color:#fda4af;">📞 24/7 National Emergency & Women Helplines</h3>
         <div id="helplinesOverviewList">Loading helplines...</div>
       </div>
     </section>
@@ -172,23 +203,31 @@
     <!-- TAB 2: EMERGENCY SOS HUB -->
     <section id="sosTab" class="tab-panel">
       <div class="sos-container">
-        <h2 style="font-size:1.8rem; margin-bottom:8px;">Emergency SOS Assistance</h2>
-        <p style="color:var(--text-secondary); margin-bottom:24px; font-size:0.95rem;">
-          Pressing the SOS button triggers an audible alarm countdown and generates immediate emergency alerts with your current GPS location for your trusted contacts.
+        <h2 style="font-size:2rem; margin-bottom:8px;">Emergency SOS Assistance</h2>
+        <p style="color:var(--text-secondary); margin-bottom:20px; font-size:0.95rem;">
+          Pressing the SOS button triggers an audible countdown and prepares immediate emergency alerts with your current GPS location for your trusted contacts.
         </p>
 
+        <!-- Transparent Pre-Action Notice Card -->
+        <div class="sos-pre-action-card">
+          <strong style="color:var(--gold-sheen);">ℹ️ How Nirbhaya Emergency SOS Works:</strong>
+          <p style="font-size:0.84rem; margin-top:4px; line-height:1.5;">
+            Web browsers cannot transmit carrier SMS in the background without explicit user interaction. Activating SOS starts a 5-second audible sequence, acquires high-accuracy GPS coordinates with your consent, and prepares 1-tap WhatsApp and SMS broadcasts for your trusted contacts alongside immediate phone calling links for 112 (Police) and 1091 (Women Helpline).
+          </p>
+        </div>
+
         <!-- Big SOS Trigger Button -->
-        <button id="sosBigBtn" class="sos-big-btn">
+        <button id="sosBigBtn" class="sos-big-btn" aria-label="Activate Emergency SOS Countdown">
           <span>SOS</span>
           <span class="sos-subtext">TAP TO ACTIVATE</span>
         </button>
 
         <!-- Countdown Overlay -->
         <div id="countdownOverlay" class="countdown-overlay">
-          <h3 style="color:#f87171;">🚨 ALERT ACTIVATING IN:</h3>
+          <h3 style="color:#fda4af;">🚨 ALERT ACTIVATING IN:</h3>
           <div id="countdownNumber" class="countdown-number">5</div>
-          <p style="color:var(--text-secondary); font-size:0.88rem; margin-bottom:14px;">
-            Audible countdown active. If this was accidental, tap cancel immediately.
+          <p style="color:var(--text-secondary); font-size:0.88rem; margin-bottom:16px;">
+            Audible countdown active. If this was triggered accidentally, tap cancel immediately.
           </p>
           <button id="cancelSosBtn" class="cancel-sos-btn">❌ Cancel Emergency Alert</button>
         </div>
@@ -199,9 +238,9 @@
             <input type="checkbox" id="attachGpsCheck" checked>
             <span><strong>Attach my live GPS location</strong> in emergency broadcast message</span>
           </label>
-          <label style="display:block; font-size:0.88rem; color:var(--text-secondary); margin-top:8px;">
-            Optional Emergency Note (e.g., "Cab driver changed route", "Person following me"):
-            <input type="text" id="sosCustomNote" class="form-input" placeholder="Quick detail for your contacts...">
+          <label style="display:block; font-size:0.86rem; color:var(--text-secondary); margin-top:12px;">
+            Optional Emergency Note (e.g. "Cab driver changed route", "Suspicious individual following"):
+            <input type="text" id="sosCustomNote" class="form-input" style="margin-top:6px;" placeholder="Quick detail for your contacts...">
           </label>
         </div>
 
@@ -228,7 +267,7 @@
               📍 Direct Threat & Stalking
             </button>
             <button class="sample-chip threat-sample-chip" data-sample="Send me your private photos right now or I will leak your pictures to everyone.">
-              📸 Blackmail / Harassment
+              📸 Blackmail / Coercive Sextortion
             </button>
             <button class="sample-chip threat-sample-chip" data-sample="Dear customer, your bank account is suspended. Click here to verify OTP: http://bit.ly/bank-auth">
               ⚠️ Phishing & OTP Trap
@@ -238,16 +277,16 @@
             </button>
           </div>
 
-          <label style="display:block; font-size:0.85rem; color:var(--text-secondary); margin-bottom:6px;">
+          <label style="display:block; font-size:0.86rem; color:var(--text-secondary); margin-bottom:8px;">
             Paste suspicious SMS, DM, email, or chat message:
           </label>
           <textarea id="threatInputText" class="form-input" rows="6" placeholder="Enter or paste suspicious message text here..."></textarea>
 
-          <div style="margin-top:16px; display:flex; justify-content:space-between; align-items:center;">
+          <div style="margin-top:16px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
             <button id="analyzeThreatBtn" class="btn-primary">
               <span>⚡ Analyze Message Risk</span>
             </button>
-            <span style="font-size:0.78rem; color:var(--text-muted);">Confidential & locally processed</span>
+            <span style="font-size:0.78rem; color:var(--text-muted);">Confidential & on-device processed</span>
           </div>
         </div>
 
@@ -263,8 +302,8 @@
 
           <div id="threatPlaceholder" style="text-align:center; padding:50px 20px; color:var(--text-muted);">
             <div style="font-size:3rem; margin-bottom:12px;">🛡️</div>
-            <h4>Ready to inspect messages</h4>
-            <p style="font-size:0.85rem; max-width:320px; margin:8px auto;">
+            <h4 style="color:var(--ivory-white); margin-bottom:6px;">Ready to inspect messages</h4>
+            <p style="font-size:0.85rem; max-width:320px; margin:8px auto; color:var(--text-secondary);">
               Paste any suspicious text or choose a sample prompt on the left to evaluate threat level, language patterns, and safety recommendations.
             </p>
           </div>
@@ -280,8 +319,8 @@
           <div class="panel-title" style="margin-bottom:12px;">
             <span>🔗</span> URL & Link Risk Inspector
           </div>
-          <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:12px;">
-            Inspects links for domain spoofing, homoglyph lookalikes, raw IP addresses, deceptive subdomains, and credential theft parameters safely without loading the website.
+          <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:12px; line-height:1.5;">
+            Inspects links for domain spoofing, homoglyph lookalikes, raw IP addresses, deceptive subdomains, and credential theft parameters safely without contacting the target website.
           </p>
 
           <div class="sample-prompts-label">SAMPLE SUSPICIOUS LINKS:</div>
@@ -311,8 +350,8 @@
           <div class="panel-title" style="margin-bottom:12px;">
             <span>💬</span> Message Privacy & Scam Checker
           </div>
-          <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:12px;">
-            Detects social engineering tricks: OTP demands, ATM/UPI PIN phishing, manufactured urgency, and dangerous remote-access tool suggestions (AnyDesk, TeamViewer).
+          <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:12px; line-height:1.5;">
+            Detects social engineering tricks: OTP demands, ATM/UPI PIN phishing, manufactured urgency, and dangerous remote-access tool solicitations (AnyDesk, TeamViewer).
           </p>
 
           <div class="sample-prompts-label">SAMPLE SCAM MESSAGES:</div>
@@ -351,19 +390,19 @@
               <span class="pulse-dot"></span> Location Sharing Off
             </div>
           </div>
-          <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:14px;">
+          <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:14px; line-height:1.5;">
             Location sharing requires your explicit authorization. When enabled, your device's high-accuracy GPS coordinates generate secure links you can send to trusted contacts.
           </p>
 
           <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:14px;">
             <button id="toggleLocationBtn" class="btn-primary">Start Location Sharing</button>
             <button id="copyLocationLinkBtn" class="btn-secondary">📋 Copy Location Link</button>
-            <button id="shareLocationWaBtn" class="btn-secondary" style="background:#25D36622; border-color:#25D366; color:#6ee7b7;">
+            <button id="shareLocationWaBtn" class="btn-secondary" style="background:rgba(37,211,102,0.12); border-color:#22c55e; color:#86efac;">
               📱 Share via WhatsApp
             </button>
           </div>
 
-          <div id="locationCoordsDisplay" style="background:#0f172a; padding:12px; border-radius:6px; border:1px solid var(--border); font-size:0.85rem; color:var(--text-secondary);">
+          <div id="locationCoordsDisplay" style="background:rgba(20,6,23,0.8); padding:14px; border-radius:6px; border:1px solid var(--lavender-border); font-size:0.85rem; color:var(--text-secondary);">
             Location sharing is currently inactive. Tap "Start Location Sharing" to enable GPS tracking.
           </div>
 
@@ -380,7 +419,7 @@
           <div class="panel-title" style="margin-bottom:12px;">
             <span>👥</span> Trusted Emergency Contacts
           </div>
-          <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:14px;">
+          <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:14px; line-height:1.5;">
             Add people you trust (family, roommates, partners). During an SOS alert, direct broadcast links are instantly generated for them.
           </p>
 
@@ -404,7 +443,7 @@
                 <input type="checkbox" id="contactNotifySms" checked> SMS Alerts
               </label>
             </div>
-            <button type="submit" class="btn-primary" style="padding:6px 14px; font-size:0.85rem;">
+            <button type="submit" class="btn-primary" style="padding:8px 16px; font-size:0.86rem;">
               + Add Trusted Contact
             </button>
           </form>
@@ -436,11 +475,11 @@
           <div class="panel-title" style="margin-bottom:12px;">
             <span>🕵️‍♀️</span> Fake Profile & Impersonation Diagnostic
           </div>
-          <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:14px;">
+          <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:14px; line-height:1.5;">
             Evaluate suspicious accounts to identify catfishing, identity theft, or impersonator profiles targeting you or someone you know:
           </p>
 
-          <div style="display:flex; flex-direction:column; gap:8px;">
+          <div style="display:flex; flex-direction:column; gap:10px;">
             <label class="checkbox-label">
               <input type="checkbox" id="chkHandleVariation">
               <span>Handle uses subtle typos (e.g., duplicate letters, random numbers, underscores, '0' instead of 'O')</span>
@@ -463,7 +502,7 @@
             </label>
           </div>
 
-          <button id="evaluateProfileBtn" class="btn-primary" style="margin-top:14px;">
+          <button id="evaluateProfileBtn" class="btn-primary" style="margin-top:16px;">
             Calculate Impersonation Risk
           </button>
 
@@ -476,11 +515,11 @@
             <div class="panel-title">
               <span>📁</span> Incident & Evidence Vault
             </div>
-            <button id="exportIncidentsBtn" class="btn-secondary" style="font-size:0.75rem; padding:4px 10px;">
-              📥 Export Dossier
+            <button id="exportIncidentsBtn" class="btn-secondary" style="font-size:0.75rem; padding:5px 12px;">
+              📥 Export Dossier (.txt)
             </button>
           </div>
-          <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:14px;">
+          <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:14px; line-height:1.5;">
             Voluntarily preserve dates, offender handles, and evidence notes. Records stay stored locally on your device for your reference when filing cybercrime complaints.
           </p>
 
@@ -503,46 +542,46 @@
               <input type="text" id="incidentOffender" class="form-input" placeholder="Offender Username / Phone">
             </div>
             <textarea id="incidentDesc" class="form-input" rows="3" placeholder="Detailed factual description of what occurred..." required></textarea>
-            <input type="text" id="incidentEvidence" class="form-input" placeholder="Evidence notes (e.g. 4 screenshots saved on desktop at 14:00, Message IDs)">
+            <input type="text" id="incidentEvidence" class="form-input" style="margin-top:10px;" placeholder="Evidence notes (e.g. 4 screenshots saved on desktop at 14:00, Message IDs)">
             <div style="margin-top:12px;">
-              <button type="submit" class="btn-primary" style="font-size:0.85rem;">+ Save Incident Record</button>
+              <button type="submit" class="btn-primary" style="font-size:0.86rem;">+ Save Incident Record</button>
             </div>
           </form>
 
-          <h5 style="margin:20px 0 10px; font-size:0.9rem; color:var(--text-secondary);">Saved Incident Records:</h5>
+          <h5 style="margin:22px 0 10px; font-size:0.92rem; color:var(--text-secondary);">Saved Incident Timeline:</h5>
           <div id="incidentVaultList">Loading vault...</div>
         </div>
       </div>
 
       <!-- Platform Reporting & Security Guides -->
       <div class="panel-card" style="margin-top:24px;">
-        <h3 style="font-size:1.15rem; color:#c084fc; margin-bottom:12px;">🛡️ Official Step-by-Step Reporting & Account Hardening Guides</h3>
+        <h3 style="font-size:1.2rem; color:var(--gold-sheen); margin-bottom:14px;">🛡️ Official Step-by-Step Reporting & Account Hardening Guides</h3>
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:16px;">
           
-          <div style="background:#0f172a; padding:14px; border-radius:8px; border:1px solid #334155;">
+          <div style="background:rgba(20,6,23,0.75); padding:16px; border-radius:8px; border:1px solid var(--lavender-border);">
             <strong style="color:#f472b6;">📸 Instagram Impersonation & Harassment</strong>
-            <p style="font-size:0.82rem; color:#cbd5e1; margin-top:6px;">
+            <p style="font-size:0.82rem; color:var(--text-secondary); margin-top:6px; line-height:1.5;">
               1. Tap '...' on offender's profile → <em>Report</em> → <em>Report Account</em>.<br>
               2. Select <em>It's pretending to be someone else</em> → choose <em>Me</em> or <em>Someone I know</em>.<br>
               3. For photo misuse: Visit Instagram's Help Center to submit a government ID verification form.
             </p>
           </div>
 
-          <div style="background:#0f172a; padding:14px; border-radius:8px; border:1px solid #334155;">
+          <div style="background:rgba(20,6,23,0.75); padding:16px; border-radius:8px; border:1px solid var(--lavender-border);">
             <strong style="color:#25D366;">💬 WhatsApp Harassment & Unknown Numbers</strong>
-            <p style="font-size:0.82rem; color:#cbd5e1; margin-top:6px;">
+            <p style="font-size:0.82rem; color:var(--text-secondary); margin-top:6px; line-height:1.5;">
               1. Open chat → tap contact info → <em>Report Contact</em> → check <em>Block contact and delete chat</em>.<br>
               2. Enable Two-Step Verification: Settings → Account → Two-Step Verification.<br>
               3. Protect IP in calls: Settings → Privacy → Advanced → Protect IP address in calls.
             </p>
           </div>
 
-          <div style="background:#0f172a; padding:14px; border-radius:8px; border:1px solid #334155;">
+          <div style="background:rgba(20,6,23,0.75); padding:16px; border-radius:8px; border:1px solid var(--lavender-border);">
             <strong style="color:#38bdf8;">🌐 Official Cybercrime Reporting</strong>
-            <p style="font-size:0.82rem; color:#cbd5e1; margin-top:6px;">
-              <strong>India:</strong> Call <strong>1930</strong> (Financial cyber fraud) or report at <a href="https://cybercrime.gov.in" target="_blank" style="color:#c084fc;">cybercrime.gov.in</a>.<br>
-              <strong>US:</strong> File complaint at <a href="https://www.ic3.gov" target="_blank" style="color:#c084fc;">ic3.gov</a> (FBI Internet Crime Complaint Center).<br>
-              <strong>UK:</strong> Report to <a href="https://www.actionfraud.police.uk" target="_blank" style="color:#c084fc;">Action Fraud UK</a>.
+            <p style="font-size:0.82rem; color:var(--text-secondary); margin-top:6px; line-height:1.5;">
+              <strong>India:</strong> Call <strong>1930</strong> (Financial cyber fraud) or report at <a href="https://cybercrime.gov.in" target="_blank" rel="noopener noreferrer" style="color:var(--gold-sheen); text-decoration:underline;">cybercrime.gov.in</a>.<br>
+              <strong>US:</strong> File complaint at <a href="https://www.ic3.gov" target="_blank" rel="noopener noreferrer" style="color:var(--gold-sheen); text-decoration:underline;">ic3.gov</a> (FBI Internet Crime Complaint Center).<br>
+              <strong>UK:</strong> Report to <a href="https://www.actionfraud.police.uk" target="_blank" rel="noopener noreferrer" style="color:var(--gold-sheen); text-decoration:underline;">Action Fraud UK</a>.
             </p>
           </div>
 
@@ -555,7 +594,7 @@
       <div class="panel-card" style="max-width:800px; margin:0 auto;">
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
           <div>
-            <h2 style="font-size:1.5rem;">Personal Safety & Privacy Checklist</h2>
+            <h2 style="font-size:1.6rem;">Personal Safety & Privacy Readiness</h2>
             <p style="font-size:0.88rem; color:var(--text-secondary); margin-top:4px;">
               Complete these best-practice steps to significantly harden your physical and digital safety.
             </p>
@@ -574,10 +613,10 @@
         </div>
 
         <!-- Privacy & User Data Rights -->
-        <div style="margin-top:36px; padding-top:24px; border-top:1px solid #334155;">
-          <h4 style="color:#f87171; margin-bottom:8px;">🔒 Data Privacy & Complete Wipe Control</h4>
-          <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:14px;">
-            Nirbhaya respects your fundamental right to digital privacy. Your contact details and incident logs are stored strictly inside your local instance database and are never shared with advertising trackers. You can permanently erase all stored records at any time.
+        <div style="margin-top:36px; padding-top:24px; border-top:1px solid var(--lavender-border);">
+          <h4 style="color:#fda4af; margin-bottom:8px; font-size:1.15rem;">🔒 Complete Data Privacy & Local Wipe Control</h4>
+          <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:14px; line-height:1.5;">
+            Nirbhaya respects your fundamental right to privacy. Your emergency contacts and incident records are stored strictly on your local device and are never shared with advertising trackers. You can permanently erase all stored records at any time.
           </p>
           <button id="wipeDataBtn" class="btn-danger">
             🗑️ Delete All My Stored Data
@@ -629,17 +668,17 @@
     <p>
       <strong>Nirbhaya</strong> — A World Without Fear | Physical Safety & Digital Privacy Protection.
     </p>
-    <p style="margin-top:6px;">
+    <p style="margin-top:6px; font-size:0.8rem; color:var(--text-muted);">
       In an immediate physical emergency, always call local law enforcement: <strong>112 (Police)</strong> / <strong>1091 (Women Helpline)</strong>.
     </p>
   </footer>
 
   <!-- Scripts -->
-  <script src="/static/js/sos.js"></script>
-  <script src="/static/js/threat_analyzer.js"></script>
-  <script src="/static/js/phishing_checker.js"></script>
-  <script src="/static/js/location_hub.js"></script>
-  <script src="/static/js/identity_vault.js"></script>
-  <script src="/static/js/app.js"></script>
+  <script src="static/js/sos.js"></script>
+  <script src="static/js/threat_analyzer.js"></script>
+  <script src="static/js/phishing_checker.js"></script>
+  <script src="static/js/location_hub.js"></script>
+  <script src="static/js/identity_vault.js"></script>
+  <script src="static/js/app.js"></script>
 </body>
 </html>

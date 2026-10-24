@@ -1,8 +1,16 @@
 /**
  * Nirbhaya - Location & Trusted Contacts Hub Module
  * Tagline: A World Without Fear
- * Permission-based location retrieval, live sharing status, and contact management.
+ * Explicit permission-based location sharing, live preview, contact management,
+ * and dual-mode resilience (Flask API + Static GitHub Pages fallback).
  */
+
+const CONTACTS_LOCAL_STORAGE_KEY = "nirbhaya_emergency_contacts";
+
+const DEFAULT_DEMO_CONTACTS = [
+  { id: 1, name: "Aanya Sharma", phone: "+919876543210", relationship: "Sister", email: "aanya@example.com", is_primary: 1, notify_sms: 1, notify_whatsapp: 1 },
+  { id: 2, name: "Priya Patel", phone: "+919123456789", relationship: "Best Friend", email: "priya@example.com", is_primary: 0, notify_sms: 1, notify_whatsapp: 1 }
+];
 
 let watchId = null;
 let currentCoords = null;
@@ -26,6 +34,8 @@ function initLocationHub() {
       const link = `https://maps.google.com/?q=${currentCoords.latitude},${currentCoords.longitude}`;
       navigator.clipboard.writeText(link).then(() => {
         alert("Location link copied to clipboard!");
+      }).catch(() => {
+        prompt("Copy this location link:", link);
       });
     });
   }
@@ -46,7 +56,7 @@ function initLocationHub() {
     addContactForm.addEventListener("submit", handleAddContactSubmit);
   }
 
-  // Load existing contacts
+  // Load contacts
   loadEmergencyContacts();
 }
 
@@ -66,12 +76,14 @@ function toggleLiveLocation() {
     btn.className = "btn-primary";
     statusBadge.className = "location-status-badge inactive";
     statusBadge.innerHTML = `<span class="pulse-dot"></span> Location Sharing Off`;
-    if (displayBox) displayBox.innerHTML = "Location sharing is currently inactive. Tap start when you want trusted contacts to view your location.";
+    if (displayBox) {
+      displayBox.innerHTML = "Location sharing is currently inactive. Tap start when you want trusted contacts to view your location.";
+    }
     if (previewFrame) previewFrame.style.display = "none";
   } else {
     // Request permission & Start sharing
     if (!navigator.geolocation) {
-      alert("Geolocation is not supported by your browser.");
+      alert("Geolocation is not supported by your current browser.");
       return;
     }
 
@@ -99,14 +111,14 @@ function toggleLiveLocation() {
 
         if (displayBox) {
           displayBox.innerHTML = `
-            <div style="font-size:0.9rem;">
-              <strong>Current GPS:</strong> ${lat}° N, ${lng}° E (±${currentCoords.accuracy} meters)<br>
-              <strong>Direct Link:</strong> <a href="${mapsLink}" target="_blank" style="color:#c084fc;">${mapsLink}</a>
+            <div style="font-size:0.88rem; line-height:1.5;">
+              <strong style="color:var(--ivory-white);">Current GPS:</strong> ${lat}° N, ${lng}° E (±${currentCoords.accuracy}m accuracy)<br>
+              <strong>Direct Link:</strong> <a href="${mapsLink}" target="_blank" rel="noopener noreferrer" style="color:var(--gold-sheen); text-decoration:underline;">${mapsLink}</a>
             </div>
           `;
         }
 
-        // Update OpenStreetMap embed iframe
+        // OpenStreetMap embed iframe
         if (previewFrame) {
           const delta = 0.005;
           const bbox = `${parseFloat(lng) - delta},${parseFloat(lat) - delta},${parseFloat(lng) + delta},${parseFloat(lat) + delta}`;
@@ -117,7 +129,11 @@ function toggleLiveLocation() {
       (err) => {
         btn.disabled = false;
         btn.textContent = "Start Location Sharing";
-        alert("Location access was denied or timed out. Please allow location permissions in your browser.");
+        let errMsg = "Location access was denied or timed out. Please allow location permissions in your browser settings.";
+        if (err.code === err.PERMISSION_DENIED) {
+          errMsg = "Location permission was denied. Nirbhaya respects your choice; GPS coordinates will not be tracked.";
+        }
+        alert(errMsg);
       },
       {
         enableHighAccuracy: true,
@@ -128,88 +144,152 @@ function toggleLiveLocation() {
   }
 }
 
+/**
+ * Loads emergency contacts from API or localStorage fallback.
+ */
 async function loadEmergencyContacts() {
   const container = document.getElementById("contactsListContainer");
   if (!container) return;
 
+  let contacts = [];
+
+  // Try API first
   try {
     const res = await fetch("/api/contacts");
-    const data = await res.json();
-    const contacts = data.contacts || [];
-
-    if (contacts.length === 0) {
-      container.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#94a3b8; padding:16px;">No emergency contacts added yet.</td></tr>`;
-      return;
+    if (res.ok) {
+      const data = await res.json();
+      contacts = data.contacts || [];
+      localStorage.setItem(CONTACTS_LOCAL_STORAGE_KEY, JSON.stringify(contacts));
+    } else {
+      throw new Error("Non-200 API response");
     }
-
-    container.innerHTML = contacts.map(c => `
-      <tr>
-        <td>
-          <strong>${c.name}</strong> ${c.is_primary ? '<span style="background:#7c3aed; color:white; font-size:0.7rem; padding:2px 6px; border-radius:4px; margin-left:4px;">Primary</span>' : ''}<br>
-          <span style="font-size:0.8rem; color:#94a3b8;">${c.relationship}</span>
-        </td>
-        <td>${c.phone}</td>
-        <td>
-          ${c.notify_whatsapp ? '<span title="WhatsApp Alert Enabled" style="margin-right:6px;">📱 WA</span>' : ''}
-          ${c.notify_sms ? '<span title="SMS Alert Enabled">✉️ SMS</span>' : ''}
-        </td>
-        <td>
-          <a href="tel:${c.phone}" class="dial-chip" style="font-size:0.75rem; text-decoration:none;">📞 Call</a>
-        </td>
-        <td style="text-align:right;">
-          <button onclick="deleteContact(${c.id})" class="btn-danger" style="padding:4px 8px; font-size:0.75rem;">Delete</button>
-        </td>
-      </tr>
-    `).join("");
   } catch (err) {
-    console.error("Load contacts error:", err);
+    // Fallback to localStorage
+    const saved = localStorage.getItem(CONTACTS_LOCAL_STORAGE_KEY);
+    if (saved) {
+      try {
+        contacts = JSON.parse(saved);
+      } catch (e) {
+        contacts = [];
+      }
+    }
+    // Initialize defaults if empty
+    if (contacts.length === 0) {
+      contacts = DEFAULT_DEMO_CONTACTS;
+      localStorage.setItem(CONTACTS_LOCAL_STORAGE_KEY, JSON.stringify(contacts));
+    }
   }
+
+  if (contacts.length === 0) {
+    container.innerHTML = `<tr><td colspan="5" style="text-align:center; color:var(--text-muted); padding:20px;">No emergency contacts added yet. Add trusted contacts above.</td></tr>`;
+    return;
+  }
+
+  container.innerHTML = contacts.map(c => `
+    <tr>
+      <td>
+        <strong style="color:var(--ivory-white);">${escapeHtml(c.name)}</strong>
+        ${c.is_primary ? '<span style="background:rgba(212,175,55,0.18); color:var(--gold-sheen); border:1px solid var(--gold-border); font-size:0.7rem; padding:2px 8px; border-radius:9999px; margin-left:6px; font-weight:600;">Primary</span>' : ''}<br>
+        <span style="font-size:0.78rem; color:var(--text-muted);">${escapeHtml(c.relationship || 'Trusted Contact')}</span>
+      </td>
+      <td style="color:var(--ivory-soft); font-family:monospace; font-size:0.85rem;">${escapeHtml(c.phone)}</td>
+      <td>
+        ${c.notify_whatsapp ? '<span title="WhatsApp Broadcast Enabled" style="margin-right:8px; font-size:0.8rem; background:rgba(37,211,102,0.15); color:#4ade80; border:1px solid rgba(37,211,102,0.3); padding:2px 6px; border-radius:4px;">WA</span>' : ''}
+        ${c.notify_sms ? '<span title="SMS Broadcast Enabled" style="font-size:0.8rem; background:rgba(203,182,224,0.15); color:var(--lavender-light); border:1px solid var(--lavender-border); padding:2px 6px; border-radius:4px;">SMS</span>' : ''}
+      </td>
+      <td>
+        <a href="tel:${escapeHtml(c.phone)}" class="dial-chip" style="font-size:0.78rem; text-decoration:none;">
+          📞 Call
+        </a>
+      </td>
+      <td style="text-align:right;">
+        <button onclick="deleteContact(${c.id})" class="btn-danger" style="padding:4px 10px; font-size:0.76rem;">
+          Delete
+        </button>
+      </td>
+    </tr>
+  `).join("");
 }
 
+/**
+ * Handles adding new contacts.
+ */
 async function handleAddContactSubmit(e) {
   e.preventDefault();
-  const name = document.getElementById("contactName").value.trim();
-  const phone = document.getElementById("contactPhone").value.trim();
-  const relationship = document.getElementById("contactRelation").value.trim();
-  const email = document.getElementById("contactEmail").value.trim();
-  const is_primary = document.getElementById("contactIsPrimary").checked;
-  const notify_sms = document.getElementById("contactNotifySms").checked;
-  const notify_whatsapp = document.getElementById("contactNotifyWa").checked;
+  const name = document.getElementById("contactName")?.value.trim();
+  const phone = document.getElementById("contactPhone")?.value.trim();
+  const relationship = document.getElementById("contactRelation")?.value.trim() || "Trusted Contact";
+  const email = document.getElementById("contactEmail")?.value.trim() || "";
+  const is_primary = document.getElementById("contactIsPrimary")?.checked ? 1 : 0;
+  const notify_sms = document.getElementById("contactNotifySms")?.checked ? 1 : 0;
+  const notify_whatsapp = document.getElementById("contactNotifyWa")?.checked ? 1 : 0;
 
   if (!name || !phone) {
     alert("Name and phone number are required.");
     return;
   }
 
+  const payload = {
+    name, phone, relationship, email, is_primary, notify_sms, notify_whatsapp
+  };
+
+  // Try API first
   try {
-    const res = await fetch("/api/contacts", {
+    await fetch("/api/contacts", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name, phone, relationship, email, is_primary, notify_sms, notify_whatsapp
-      })
+      body: JSON.stringify(payload)
     });
-    if (res.ok) {
-      document.getElementById("addContactForm").reset();
-      loadEmergencyContacts();
-      alert("Emergency contact added successfully!");
-    } else {
-      const err = await res.json();
-      alert(err.error || "Failed to add contact.");
-    }
   } catch (err) {
-    console.error("Add contact error:", err);
+    // Static mode
   }
+
+  // Update localStorage
+  const saved = localStorage.getItem(CONTACTS_LOCAL_STORAGE_KEY);
+  let contacts = saved ? JSON.parse(saved) : [];
+
+  if (is_primary) {
+    contacts.forEach(c => c.is_primary = 0);
+  }
+
+  contacts.push({
+    ...payload,
+    id: Date.now()
+  });
+
+  localStorage.setItem(CONTACTS_LOCAL_STORAGE_KEY, JSON.stringify(contacts));
+
+  document.getElementById("addContactForm")?.reset();
+  loadEmergencyContacts();
+  alert("Emergency contact added successfully!");
 }
 
+/**
+ * Handles contact deletion.
+ */
 window.deleteContact = async function(id) {
   if (!confirm("Are you sure you want to remove this trusted contact?")) return;
+
   try {
     await fetch(`/api/contacts/${id}`, { method: "DELETE" });
-    loadEmergencyContacts();
   } catch (err) {
-    console.error("Delete contact error:", err);
+    // Static mode
   }
+
+  const saved = localStorage.getItem(CONTACTS_LOCAL_STORAGE_KEY);
+  if (saved) {
+    let contacts = JSON.parse(saved);
+    contacts = contacts.filter(c => c.id !== id);
+    localStorage.setItem(CONTACTS_LOCAL_STORAGE_KEY, JSON.stringify(contacts));
+  }
+
+  loadEmergencyContacts();
 };
+
+function escapeHtml(text) {
+  if (!text) return "";
+  const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+  return String(text).replace(/[&<>"']/g, m => map[m]);
+}
 
 document.addEventListener("DOMContentLoaded", initLocationHub);
