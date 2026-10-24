@@ -43,16 +43,33 @@
     </a>
 
     <div class="nav-links">
-      <button class="nav-btn active" data-tab="dashboardTab">📊 Dashboard</button>
-      <button class="nav-btn" data-tab="copilotTab">🧭 Safety Copilot</button>
-      <button class="nav-btn" data-tab="threatTab">🧠 AI Threat Analyzer</button>
+      <button class="nav-btn active" data-tab="dashboardTab" data-i18n-key="nav.dashboard">📊 Dashboard</button>
+      <button class="nav-btn" data-tab="copilotTab" data-i18n-key="nav.copilot">🧭 Safety Copilot</button>
+      <button class="nav-btn" data-tab="threatTab" data-i18n-key="nav.threat">🧠 AI Threat Analyzer</button>
       <button class="nav-btn" data-tab="phishingTab">🛡️ Privacy & URL Checker</button>
       <button class="nav-btn" data-tab="locationTab">📍 Location & Contacts</button>
       <button class="nav-btn" data-tab="identityTab">📁 Identity & Evidence Vault</button>
       <button class="nav-btn" data-tab="checklistTab">✅ Safety Checklist</button>
       <button class="nav-sos-pill" onclick="switchTab('sosTab');">🚨 EMERGENCY SOS</button>
     </div>
-  </nav>
+  <div class="language-selector" style="margin-left:auto; margin-right:1rem;">
+        <label for="languageSelect" class="visually-hidden">Select language</label>
+        <select id="languageSelect" aria-label="Select language">
+          <option value="en">English</option>
+          <option value="te">Telugu</option>
+          <option value="hi">Hindi</option>
+          <option value="ta">Tamil</option>
+          <option value="kn">Kannada</option>
+          <option value="ml">Malayalam</option>
+          <option value="mr">Marathi</option>
+          <option value="bn">Bengali</option>
+          <option value="gu">Gujarati</option>
+          <option value="pa">Punjabi</option>
+          <option value="or">Odia</option>
+          <option value="ur">Urdu</option>
+        </select>
+      </div>
+    </nav>
 
   <!-- Main Content Area -->
   <main class="main-content">
