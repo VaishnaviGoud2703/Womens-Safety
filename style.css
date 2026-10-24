@@ -1522,6 +1522,470 @@ footer strong {
 }
 
 /* ==========================================================================
+   Safety Copilot Module Styles
+   ========================================================================== */
+.copilot-container {
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
+.copilot-emergency-banner {
+  background: linear-gradient(135deg, rgba(190, 18, 60, 0.25) 0%, rgba(225, 29, 72, 0.15) 100%);
+  border: 1px solid rgba(225, 29, 72, 0.45);
+  border-radius: var(--radius-md);
+  padding: 14px 20px;
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  box-shadow: 0 4px 18px rgba(190, 18, 60, 0.25);
+}
+
+.copilot-emergency-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.copilot-emergency-text {
+  font-size: 0.88rem;
+  color: #fda4af;
+  line-height: 1.4;
+}
+
+.copilot-emergency-text strong {
+  color: #fff;
+}
+
+.copilot-stepper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+
+.copilot-step-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(20, 6, 23, 0.6);
+  border: 1px solid var(--lavender-border);
+  padding: 6px 16px;
+  border-radius: var(--radius-full);
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.copilot-step-badge.active {
+  background: rgba(142, 53, 135, 0.35);
+  border-color: var(--gold-border);
+  color: var(--gold-sheen);
+  font-weight: 600;
+  box-shadow: 0 2px 10px rgba(142, 53, 135, 0.25);
+}
+
+.copilot-step-badge.completed {
+  border-color: rgba(16, 185, 129, 0.4);
+  color: #a7f3d0;
+}
+
+.copilot-situations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.copilot-situation-card {
+  background: rgba(36, 14, 40, 0.65);
+  backdrop-filter: var(--glass-backdrop);
+  -webkit-backdrop-filter: var(--glass-backdrop);
+  border: 1px solid var(--lavender-border);
+  border-radius: var(--radius-md);
+  padding: 24px 20px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.24s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow-subtle);
+  position: relative;
+}
+
+.copilot-situation-card:hover {
+  background: rgba(52, 19, 58, 0.85);
+  border-color: var(--gold-border);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-elevated), var(--shadow-gold-sheen);
+}
+
+.copilot-situation-card:focus-visible {
+  outline: 2px solid var(--gold-warm);
+  outline-offset: 3px;
+}
+
+.situation-icon {
+  font-size: 2rem;
+  margin-bottom: 12px;
+}
+
+.situation-title {
+  font-family: var(--font-serif);
+  font-size: 1.18rem;
+  font-weight: 600;
+  color: var(--ivory-white);
+  margin-bottom: 8px;
+}
+
+.situation-desc {
+  font-size: 0.86rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 18px;
+  flex: 1;
+}
+
+.situation-cta {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--gold-sheen);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: transform 0.2s;
+}
+
+.copilot-situation-card:hover .situation-cta {
+  transform: translateX(4px);
+}
+
+/* Step 2: Context Questions */
+.copilot-question-card {
+  background: rgba(26, 7, 30, 0.7);
+  border: 1px solid var(--lavender-border);
+  border-radius: var(--radius-md);
+  padding: 20px 22px;
+  margin-bottom: 18px;
+}
+
+.copilot-question-number {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--gold-sheen);
+  margin-bottom: 6px;
+}
+
+.copilot-question-text {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ivory-white);
+  margin-bottom: 14px;
+}
+
+.copilot-options-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.copilot-option-pill {
+  background: rgba(20, 6, 23, 0.75);
+  border: 1px solid var(--lavender-border);
+  border-radius: var(--radius-sm);
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  transition: all 0.18s ease;
+  user-select: none;
+}
+
+.copilot-option-pill:hover {
+  background: rgba(36, 12, 42, 0.85);
+  border-color: var(--gold-border);
+  color: var(--ivory-white);
+}
+
+.copilot-option-pill.selected {
+  background: rgba(142, 53, 135, 0.28);
+  border-color: var(--gold-warm);
+  color: var(--ivory-white);
+  box-shadow: 0 2px 8px rgba(142, 53, 135, 0.2);
+}
+
+.copilot-option-pill input[type="radio"] {
+  accent-color: var(--gold-warm);
+  width: 17px;
+  height: 17px;
+}
+
+/* Step 3: Prioritized Action Plan View */
+.copilot-plan-header {
+  background: linear-gradient(135deg, rgba(45, 14, 52, 0.85) 0%, rgba(28, 8, 32, 0.95) 100%);
+  border: 1px solid var(--gold-border);
+  border-radius: var(--radius-lg);
+  padding: 24px 28px;
+  margin-bottom: 26px;
+  box-shadow: var(--shadow-subtle);
+}
+
+.copilot-plan-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(212, 175, 55, 0.12);
+  border: 1px solid var(--gold-border);
+  color: var(--gold-sheen);
+  padding: 3px 12px;
+  border-radius: var(--radius-full);
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+}
+
+.copilot-plan-title {
+  font-size: 1.55rem;
+  color: var(--ivory-white);
+  font-family: var(--font-serif);
+  margin-bottom: 6px;
+}
+
+.copilot-plan-subtitle {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.copilot-tier-block {
+  margin-bottom: 28px;
+}
+
+.copilot-tier-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.copilot-tier-icon {
+  font-size: 1.5rem;
+}
+
+.copilot-tier-title {
+  font-size: 1.15rem;
+  color: var(--ivory-white);
+  font-family: var(--font-serif);
+}
+
+.copilot-tier-desc {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.copilot-recs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.copilot-rec-card {
+  background: rgba(28, 9, 32, 0.85);
+  border: 1px solid var(--lavender-border);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.copilot-rec-card.urgent {
+  border-left: 4px solid #e11d48;
+}
+
+.copilot-rec-card.next {
+  border-left: 4px solid var(--lavender-deep);
+}
+
+.copilot-rec-card.longterm {
+  border-left: 4px solid var(--gold-warm);
+}
+
+.copilot-rec-card:hover {
+  border-color: var(--gold-border);
+  background: rgba(38, 12, 44, 0.95);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+}
+
+.copilot-rec-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.copilot-rec-badge {
+  background: rgba(203, 182, 224, 0.12);
+  color: var(--lavender-light);
+  border: 1px solid var(--lavender-border);
+  padding: 2px 10px;
+  border-radius: var(--radius-full);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.copilot-rec-index {
+  font-size: 0.74rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.copilot-rec-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ivory-white);
+  margin-bottom: 8px;
+  line-height: 1.35;
+}
+
+.copilot-rec-desc {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  margin-bottom: 14px;
+  flex: 1;
+}
+
+/* Explainability: Why am I seeing this advice? */
+.why-advice-box {
+  background: rgba(20, 6, 23, 0.7);
+  border: 1px solid rgba(212, 175, 55, 0.22);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  margin-top: 10px;
+  transition: all 0.2s ease;
+}
+
+.why-advice-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.78rem;
+  color: var(--gold-sheen);
+  cursor: pointer;
+  user-select: none;
+}
+
+.why-toggle-arrow {
+  font-size: 0.8rem;
+  transition: transform 0.2s ease;
+}
+
+.why-advice-box.open .why-toggle-arrow {
+  transform: rotate(180deg);
+}
+
+.why-advice-content {
+  display: none;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  line-height: 1.45;
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1px dashed rgba(212, 175, 55, 0.18);
+}
+
+.why-advice-box.open .why-advice-content {
+  display: block;
+  animation: fadeInPanel 0.2s ease;
+}
+
+.copilot-tool-link-btn {
+  background: transparent;
+  color: var(--gold-sheen);
+  border: 1px solid var(--gold-border);
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 14px;
+  align-self: flex-start;
+  transition: all 0.2s ease;
+  font-family: var(--font-sans);
+}
+
+.copilot-tool-link-btn:hover {
+  background: rgba(212, 175, 55, 0.15);
+  color: #fff;
+  border-color: var(--gold-sheen);
+}
+
+/* Disclosures Card */
+.copilot-disclosures-card {
+  background: rgba(20, 6, 23, 0.7);
+  border: 1px solid var(--lavender-border);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  margin-top: 24px;
+}
+
+/* Immediate Danger Card */
+.copilot-danger-card {
+  background: rgba(36, 10, 24, 0.95);
+  border: 2px solid var(--danger-bright);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  box-shadow: 0 10px 40px rgba(225, 29, 72, 0.4);
+  animation: fadeInPanel 0.25s ease;
+}
+
+.copilot-danger-notice {
+  background: rgba(225, 29, 72, 0.15);
+  border: 1px solid rgba(225, 29, 72, 0.35);
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  color: #fda4af;
+  font-size: 0.86rem;
+  line-height: 1.45;
+  margin-bottom: 18px;
+}
+
+.danger-priority-box {
+  background: rgba(20, 6, 23, 0.8);
+  border: 1px solid rgba(225, 29, 72, 0.25);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+}
+
+.danger-priority-box strong {
+  color: #fda4af;
+  font-size: 0.92rem;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.danger-priority-box p {
+  font-size: 0.84rem;
+  color: var(--text-secondary);
+  line-height: 1.45;
+}
+
+/* ==========================================================================
    Responsive & Accessibility Adaptations
    ========================================================================== */
 @media (max-width: 960px) {
