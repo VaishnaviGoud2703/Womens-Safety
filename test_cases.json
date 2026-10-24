@@ -1,0 +1,108 @@
+{
+  "project": "Nirbhaya",
+  "tagline": "A World Without Fear",
+  "version": "1.0.0",
+  "test_cases": [
+    {
+      "id": "TC-01",
+      "module": "AI Threat & Harassment Analyzer",
+      "description": "Direct physical threat and location stalking message",
+      "input": "I know where you live. If you don't reply, you'll regret it.",
+      "expected": {
+        "category": "threat",
+        "category_label": "Threatening / Coercive Language",
+        "minimum_risk_score": 75,
+        "patterns_detected": ["Stalking Presence", "Physical Violence"],
+        "recommended_actions": "Evidence preservation, no confrontation, contact 112/1091, alert trusted contacts."
+      }
+    },
+    {
+      "id": "TC-02",
+      "module": "AI Threat & Harassment Analyzer",
+      "description": "Sextortion and image-based blackmail message",
+      "input": "Send me your private photos right now or I will leak your pictures to everyone.",
+      "expected": {
+        "category": "harassment",
+        "category_label": "Harassment / Cyberbullying / Blackmail",
+        "minimum_risk_score": 70,
+        "patterns_detected": ["Blackmail Coercion"],
+        "recommended_actions": "Take screenshots, do not pay/comply, block offender, contact cyber safety cell."
+      }
+    },
+    {
+      "id": "TC-03",
+      "module": "AI Threat & Harassment Analyzer",
+      "description": "Benign friendly conversation",
+      "input": "Hey! Are you reaching home safely? Let me know when you arrive.",
+      "expected": {
+        "category": "benign",
+        "maximum_risk_score": 40,
+        "patterns_detected": [],
+        "risk_level": "Low Risk / Likely Safe"
+      }
+    },
+    {
+      "id": "TC-04",
+      "module": "Digital Privacy & Phishing Checker",
+      "description": "Urgent banking message with OTP harvesting and shortener link",
+      "input_text": "URGENT: Your SBI bank account will be blocked within 2 hours. Share your 6-digit OTP code to unblock: http://bit.ly/bank-auth",
+      "expected": {
+        "sensitive_indicators": ["Request for One-Time Password (OTP)", "Manufactured Urgency / Account Suspension Pressure"],
+        "embedded_url_risk": "Disguised destination / URL Shortener",
+        "overall_risk": "High Phishing & Social Engineering Threat"
+      }
+    },
+    {
+      "id": "TC-05",
+      "module": "URL Security Inspector",
+      "description": "Brand impersonation through deceptive subdomains and high-risk TLD",
+      "input_url": "https://instagram.security-update.xyz/verify-account",
+      "expected": {
+        "verdict_badge": "danger",
+        "flags_triggered": [
+          "High-Risk TLD (.xyz)",
+          "Brand Spoofing (Instagram)"
+        ]
+      }
+    },
+    {
+      "id": "TC-06",
+      "module": "URL Security Inspector",
+      "description": "Direct IP address phishing link without SSL",
+      "input_url": "http://192.168.1.1/login.php",
+      "expected": {
+        "flags_triggered": [
+          "Direct IP Address Hostname",
+          "Insecure Protocol (HTTP)",
+          "Credential Harvest Keywords"
+        ],
+        "verdict": "Dangerous / High Phishing Likelihood"
+      }
+    },
+    {
+      "id": "TC-07",
+      "module": "Emergency SOS Assistance",
+      "description": "SOS trigger with location coordinates and cancellation",
+      "input_payload": {
+        "location": {"latitude": 17.38504, "longitude": 78.48667, "accuracy": 12},
+        "note": "Cab driver took unknown detour"
+      },
+      "expected": {
+        "status": "sos_activated",
+        "google_maps_link_generated": true,
+        "dispatches_formatted": ["WhatsApp click-to-chat", "SMS URI"],
+        "delivery_transparency": "States that browser cannot guarantee carrier SMS delivery without manual dispatch"
+      }
+    },
+    {
+      "id": "TC-08",
+      "module": "Privacy Data Wipe",
+      "description": "Permanently erase all stored contacts and incident vault records",
+      "endpoint": "/api/privacy/wipe-data",
+      "expected": {
+        "success": true,
+        "database_state": "All emergency contacts and incident vault entries emptied"
+      }
+    }
+  ]
+}
